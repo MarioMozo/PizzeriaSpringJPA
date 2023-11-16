@@ -1,6 +1,7 @@
 package com.example.service;
 
 import com.example.persistence.entity.PizzaEntity;
+import com.example.persistence.repository.PizzaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -11,16 +12,18 @@ import java.util.List;
 @Service
 public class PizzaSerivce {
     //Declarar variable
-    @Autowired
-    private final JdbcTemplate jdbcTemplate;
+    private final PizzaRepository pizzaRepository;
 
     //Constructor
-    public PizzaSerivce(JdbcTemplate jdbcTemplate){
-        this.jdbcTemplate = jdbcTemplate;
+    @Autowired
+    public PizzaSerivce(PizzaRepository pizzaRepository){
+        this.pizzaRepository = pizzaRepository;
     }
 
     //Metodo para consultar todas las pizzas que existen.
     public List<PizzaEntity> getAll(){
-        return this.jdbcTemplate.query("SELECT * FROM pizza", new BeanPropertyRowMapper<>(PizzaEntity.class));
+        return this.pizzaRepository.findAll();
     }
+
+    public PizzaEntity get(int idPizza) {return this.pizzaRepository.findById(idPizza).orElse((null));}
 }

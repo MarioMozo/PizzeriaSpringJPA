@@ -6,6 +6,7 @@ import com.example.service.PizzaSerivce;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
@@ -19,8 +20,11 @@ public class PizzaController {
         this.pizzaSerivce = pizzaSerivce;
     }
 
-    @GetMapping
-    public ResponseEntity<List<PizzaEntity>> getAll(){
-        return ResponseEntity.ok(this.pizzaSerivce.getAll());
+    //Con esta función se puede buscar por id, ingresandolo directamente en la url
+    @GetMapping("/{idPizza}")
+    public ResponseEntity<PizzaEntity> get(@PathVariable int idPizza)
+    {
+        return ResponseEntity.ok(this.pizzaSerivce.get(idPizza));
+
     }
 }
